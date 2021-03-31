@@ -32,21 +32,22 @@ int main(){
 	int s;
 	while(s=menu()){
 		switch(s){	
-		case 1:			
+		case 1:	
+			check=head;		
 			p=new stnode;
 			if(head==NULL)
 			{last=p;}
 			cout<<"請輸入學生的號碼\n";
 			cin>>p->no;
-			//cin.get();
-			//cout<<"請輸入"<<p->no<<"號學生的姓名\n";
-			//cin.getline(p->name,10);
-			//cout<<"請輸入第"<<p->no<<"位號學生的平時成績\n";
-			//cin>>p->nor;
-			//cout<<"請輸入第"<<p->no<<"號學生的期中成績\n";
-			//cin>>p->mid;
-			//cout<<"請輸入第"<<p->no<<"號學生的期末成績\n";
-			//cin>>p->final;
+			cin.get();
+			cout<<"請輸入"<<p->no<<"號學生的姓名\n";
+			cin.getline(p->name,10);
+			cout<<"請輸入第"<<p->no<<"位號學生的平時成績\n";
+			cin>>p->nor;
+			cout<<"請輸入第"<<p->no<<"號學生的期中成績\n";
+			cin>>p->mid;
+			cout<<"請輸入第"<<p->no<<"號學生的期末成績\n";
+			cin>>p->final;
 			if(head==NULL||p->no<head->no){
 				p->ptr=head;
 				head=p;
@@ -74,34 +75,33 @@ int main(){
 			cout<<"請輸入欲刪除號碼";
 			cin>>number;
 			if(head==NULL){
-				cout<<"無資料";
-				break;
+				cout<<"無資料";break;
 			}
 			if(head->ptr==NULL&&head->no==number){
-				head=NULL;
-				break;
+				head=0;break;
 			}
 			if(head->ptr!=0&&head->no==number){
-				head=head->ptr;
+				head=head->ptr;break;
 			}
 			stnode *del;
-			check=head->ptr;
-			if(head->no!=number)
+			check=head;
+			if(head->no!=number&&head->ptr!=0)
 			{check=check->ptr;
 			 del=head;
 				while(check){
 					if(check->no==number){
 						del->ptr=check->ptr;
 						check=NULL;	
-						break;				
+										
 					}
 					else{
 						check=check->ptr;
 						del=del->ptr;
 					}
 				}
+				break;
 			}
-			break;
+		
 			
 		case 3:
 			int numbersearch;
@@ -121,7 +121,10 @@ int main(){
 			break;
 		case 4:
 			check=head;
-			if(head==NULL)break;
+			if(head==NULL){
+				cout<<"no data"<<endl;
+				break;
+			}
 			while(check!=NULL)
 			{
 				cout<<"號碼:"<<check->no<<" 姓名:"<<check->name<<" 平時:"<<check->nor<<" 期中:"<<check->mid<<" 期末"<<check->final<<"\n";
@@ -132,5 +135,7 @@ int main(){
 		default:
 			cout<<"wrong input, select again."  <<endl;   
 		}
-}} 
+	}
+	cout<<"Thank for your using";
+} 
 
