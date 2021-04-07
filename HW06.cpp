@@ -2,13 +2,61 @@
 #include<cstring>
 using namespace std;
 class stnode{
+			int no ;
+			char name[10];
+			int nor;
+			int mid;
+			int final;
+			stnode *ptr;
 	public:
-		int no ;
-		char name[10];
-		int nor;
-		int mid;
-		int final;
-		stnode *ptr;
+		void writeno(int a)
+    {
+    	no=a;
+	}
+	void writename(char b[10])
+	{
+		strcpy(name,b);
+	}
+	void writenor(int c)
+    {
+    	nor=c;
+	}
+	void writemid(int d)
+    {
+    	mid=d;
+	}
+	void writefinal(int e)
+    {
+    	final=e;
+	}
+	
+	int readno()
+	{
+		return no;
+	}
+	char readname()
+	{
+		return *name;
+	}
+	int readnor()
+	{
+		return nor;
+	}
+	int readmid()
+	{
+		return mid;
+	}
+	int readfinal()
+	{
+		return final;
+	}
+	void writeptr(stnode *a){
+		ptr=a;
+	}
+	stnode* readptr(){
+		return ptr;
+	}
+		
 }; 
 int menu(){
 	int i;
@@ -31,111 +79,116 @@ int main(){
 	stnode *check;
 	int s;
 	while(s=menu()){
+		int a;
+		char b[10];
 		switch(s){	
-		case 1:	
-			check=head;		
-			p=new stnode;
-			if(head==NULL)
-			{last=p;}
-			cout<<"請輸入學生的號碼\n";
-			cin>>p->no;
-			cin.get();
-			cout<<"請輸入"<<p->no<<"號學生的姓名\n";
-			cin.getline(p->name,10);
-			cout<<"請輸入第"<<p->no<<"位號學生的平時成績\n";
-			cin>>p->nor;
-			cout<<"請輸入第"<<p->no<<"號學生的期中成績\n";
-			cin>>p->mid;
-			cout<<"請輸入第"<<p->no<<"號學生的期末成績\n";
-			cin>>p->final;
-			if(head==NULL||p->no<head->no){
-				p->ptr=head;
+			case 1:	
+				check=head;		
+				p=new stnode;
+				if(head==NULL)
+				{last=p;}
+				cout<<"請輸入學生的號碼\n";
+				cin>>a;
+				p->writeno(a);
+				cin.get();
+				cout<<"請輸入"<<p->readno()<<"號學生的姓名\n";
+				cin.getline(b,10);
+				p->writename(b);
+				cout<<"請輸入第"<<p->readno()<<"位號學生的平時成績\n";
+				cin>>a;
+				p->writenor(a);
+				cout<<"請輸入第"<<p->readno()<<"號學生的期中成績\n";
+				cin>>a;
+				p->writemid(a);
+				cout<<"請輸入第"<<p->readno()<<"號學生的期末成績\n";
+				cin>>a;
+				p->writefinal(a);
+				if(head==NULL||p->readno()<head->readno()){
+				p->writeptr(head);
 				head=p;
 				check=p;
-			}
-			if(p->no>last->no){
-				last->ptr=p;
-				last=p;
-			}
-			if(head->no<(p->no)&&last->no>p->no)
-			{
+				}
+				if(p->readno()>last->readno()){
+					last->writeptr(p);
+					last=p;
+				}
+				if(head->readno()<(p->readno())&&last->readno()>p->readno())
+				{
+					while(check){
+					if(check->readno() < p->readno() && check->readptr()->readno() > p->readno())
+					{
+						p->writeptr(check->readptr());
+						check->writeptr(p);
+						check=NULL;
+					}
+					else
+						check=check->readptr();
+					}
+				}
+				break;	
+			case 2:
+				int number;
+				cout<<"請輸入欲刪除號碼";
+				cin>>number;
+				if(head==NULL){
+					cout<<"無資料";break;
+				}
+				if(head->readptr()==NULL&&head->readno()==number){
+					head=0;break;
+				}
+				if(head->readptr()!=0&&head->readno()==number){
+					head=head->readptr();break;
+				}
+				stnode *del;
+				check=head;
+				if(head->readno()!=number&&head->readptr()!=0)
+				{check=check->readptr();
+				 del=head;
+					while(check){
+						if(check->readno()==number){
+							del->writeptr(check->readptr());
+							check=NULL;	
+											
+						}
+						else{
+							check=check->readptr();
+							del=del->readptr();
+						}
+					}
+					break;
+				}
+				case 3:
+				int numbersearch;
+				cout<<"請輸入欲查詢號碼";
+				cin>>numbersearch;
+				check=head;
 				while(check){
-				if(check->no<p->no&&check->ptr->no>p->no){
-					p->ptr=check->ptr;
-					check->ptr=p;
-					check=NULL;
-				}
-				else
-					check=check->ptr;
-				}
-			}
-			break;					
-		case 2:
-			int number;
-			cout<<"請輸入欲刪除號碼";
-			cin>>number;
-			if(head==NULL){
-				cout<<"無資料";break;
-			}
-			if(head->ptr==NULL&&head->no==number){
-				head=0;break;
-			}
-			if(head->ptr!=0&&head->no==number){
-				head=head->ptr;break;
-			}
-			stnode *del;
-			check=head;
-			if(head->no!=number&&head->ptr!=0)
-			{check=check->ptr;
-			 del=head;
-				while(check){
-					if(check->no==number){
-						del->ptr=check->ptr;
-						check=NULL;	
-										
+						if(check->readno()==numbersearch){
+							cout<<"號碼:"<<check->readno()<<" 姓名:"<<check->readname()<<" 平時:"<<check->readnor()<<" 期中:"<<check->readmid()<<" 期末"<<check->readfinal()<<"\n";
+							break;				
+						}
+						else{
+							check=check->readptr();
+						}
 					}
-					else{
-						check=check->ptr;
-						del=del->ptr;
-					}
+				break;			
+				case 4:
+				check=head;
+				if(head==NULL){
+					cout<<"no data"<<endl;
+					break;
 				}
-				break;
-			}
-		
+				while(check!=NULL)
+				{
+					cout<<"號碼:"<<check->readno()<<" 姓名:"<<check->readname()<<" 平時:"<<check->readnor()<<" 期中:"<<check->readmid()<<" 期末"<<check->readfinal()<<"\n";
+					check=check->readptr();
 			
-		case 3:
-			int numbersearch;
-			cout<<"請輸入欲查詢號碼";
-			cin>>numbersearch;
-			check=head;
-			while(check){
-					if(check->no==numbersearch){
-						cout<<"號碼:"<<check->no<<" 姓名:"<<check->name<<" 平時:"<<check->nor<<" 期中:"<<check->mid<<" 期末"<<check->final<<"\n";
-						break;				
-					}
-					else{
-						check=check->ptr;
-					}
-				}
+				}break;
 			
-			break;
-		case 4:
-			check=head;
-			if(head==NULL){
-				cout<<"no data"<<endl;
-				break;
+			default:
+				cout<<"wrong input, select again."  <<endl;   
 			}
-			while(check!=NULL)
-			{
-				cout<<"號碼:"<<check->no<<" 姓名:"<<check->name<<" 平時:"<<check->nor<<" 期中:"<<check->mid<<" 期末"<<check->final<<"\n";
-				check=check->ptr;
-		
-			}break;
-		
-		default:
-			cout<<"wrong input, select again."  <<endl;   
 		}
-	}
-	cout<<"Thank for your using";
 } 
+
 
